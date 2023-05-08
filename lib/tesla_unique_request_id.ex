@@ -6,7 +6,7 @@ defmodule Tesla.Middleware.UniqueRequestId do
   ```
   defmodule MyClient do
     use Tesla
-    plug Tesla.Middleware.RequestId, header_name: "x-transaction-id"
+    plug Tesla.Middleware.UniqueRequestId, header_name: "x-transaction-id"
   end
   ```
   """
@@ -30,7 +30,7 @@ defmodule Tesla.Middleware.UniqueRequestId do
 
     case Tesla.get_header(env, @header_name) do
       nil ->
-        id = UUID.uuid1()
+        id = UUID.uuid4()
         Logger.metadata(tesla_request_id: id)
         Tesla.put_header(env, header_name, id)
 
