@@ -30,8 +30,9 @@ defmodule Tesla.Middleware.UniqueRequestId do
 
     case Tesla.get_header(env, @header_name) do
       nil ->
-        Logger.metadata(request_id: UUID.uuid1())
-        Tesla.put_header(env, header_name, UUID.uuid1())
+        id = UUID.uuid1()
+        Logger.metadata(tesla_request_id: id)
+        Tesla.put_header(env, header_name, id)
 
       _id ->
         :ok
